@@ -181,7 +181,7 @@
 
     .box-child1, .box-child2, .box-child3 {
       width: 300px;
-      height: 300px;
+      height: 270px;
       background-color: rgba(255, 255, 255, 0.2);
       border-radius: 10px;
       backdrop-filter: blur(10px);
@@ -190,7 +190,7 @@
       color: white;
       opacity: 0;
       transform: translateY(50px);
-      transition: all 0.6s ease;
+      transition: all 0.6s ease-in-out;
     }
 
     .box-child1::before { content: "Electric Performance"; font-weight: bold; font-size: 20px; display: block; margin-bottom: 10px; }
@@ -268,7 +268,7 @@
 
     .contact-footer-pro {
   position: relative;
-  background: url('./imsges.html-2/joey-banks-YApiWyp0lqo-unsplash.jpg') center/cover no-repeat;
+  background: url('./imsges.html-2/oleksandr-chumak-wxuMht6yhas-unsplash.jpg') center/cover no-repeat;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -506,7 +506,7 @@
       hamburger.classList.toggle('scrolled', scrolled);
       introText.classList.toggle('hidden', scrolled);
 
-      document.body.classList.toggle('light-mode', window.scrollY > 1100);
+      document.body.classList.toggle('light-mode', window.scrollY > 1050);
     });
 
     function toggleMenu() {
