@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ELTECH Cars</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: url(./imsges.html-2/hakon-sataoen-XFiY4FZj8ZE-unsplash.jpg) center/cover no-repeat fixed;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background 0.7s, color 0.9s;
+      color: white;
+    }
+
+    body.light-mode {
+      background: #f4f4f4;
+      color: #111;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .video-2 {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .video-2a {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.7);
+      position: absolute;
+    }
+
+    .intro-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      z-index: 10;
+      transition: opacity 0.5s ease;
+    }
+
+    .intro-text.hidden {
+      opacity: 0;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    header.scrolled {
+      background: rgba(255, 255, 255, 0.272);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      transition: 0.3s ease;
+    }
+
+    .logo.scrolled {
+      color: black;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: rgb(46, 41, 41);
+      font-weight: 700;
+      position: relative;
+      font-family: Georgia, serif;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #07c26a;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.scrolled div {
+      background: black;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: #0a0a0a;
+      position: absolute;
+      top: 80px;
+      right: 40px;
+      width: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .mobile-menu a {
+      padding: 15px;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #222;
+    }
+
+    .mobile-menu a:hover {
+      background: #00ff88;
+      color: #0a0a0a;
+    }
+
+    .box h1 {
+      font-size: 40px;
+      text-align: center;
+      padding: 20px;
+      display: block;
+    }
+
+    .box-parent {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+    }
+
+    .box-child1, .box-child2, .box-child3 {
+      width: 300px;
+      height: 300px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      color: white;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+    }
+
+    .box-child1::before { content: "Electric Performance"; font-weight: bold; font-size: 20px; display: block; margin-bottom: 10px; }
+    .box-child1::after { content: "Our electric vehicles offer cutting-edge range and acceleration powered by sustainable technology."; font-size: 14px; }
+    .box-child2::before { content: "Smart Navigation"; font-weight: bold; font-size: 20px; display: block; margin-bottom: 10px; }
+    .box-child2::after { content: "Built-in AI assistants help you navigate traffic with real-time updates, adaptive cruise, and route learning."; font-size: 14px; }
+    .box-child3::before { content: "Luxury Interiors"; font-weight: bold; font-size: 20px; display: block; margin-bottom: 10px; }
+    .box-child3::after { content: "Experience pure comfort with smart climate control, ambient lighting, and customizable leather seating."; font-size: 14px; }
+
+    .card-visible {
+      opacity: 1 !important;
+      transform: translateY(0px) !important;
+    }
+
+    section {
+      padding: 100px 60px;
+    }
+
+    section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+    }
+
+    #about p {
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    #recent-cars .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    #recent-cars img {
+      width: 300px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    #reviews .review-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 30px 0;
+    }
+
+    #reviews .review-container div {
+      min-width: 300px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 15px;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .box-parent {
+        flex-direction: column;
+        align-items: center;
+      }
+      .intro-text {
+        font-size: 15px;
+        top: 50%;
+      }
+    }
+
+    .contact-footer-pro {
+  position: relative;
+  background: url('./imsges.html-2/joey-banks-YApiWyp0lqo-unsplash.jpg') center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 60px 20px;
+  color: black;
+}
+
+.contact-footer-pro .overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.434);
+  backdrop-filter: blur(7px);
+  padding: 60px 0;
+}
+
+.contact-pro-container {
+  display: flex;
+  max-width: 1200px;
+  margin: auto;
+  gap: 80px;
+  padding: 0 40px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.contact-pro-form {
+  flex: 1 1 500px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.contact-pro-form h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.contact-pro-form p {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  color: rgba(0, 0, 0, 0.791);
+}
+
+.contact-pro-form input,
+.contact-pro-form textarea {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(0, 0, 0, 0.648);
+  font-size: 1rem;
+}
+
+.contact-pro-form input::placeholder,
+.contact-pro-form textarea::placeholder {
+  color: #bbb;
+}
+
+.contact-pro-form button {
+  padding: 14px 28px;
+  background-color: #02a157;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.contact-pro-form button:hover {
+  background-color: #04894d;
+}
+
+.contact-pro-info {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contact-pro-info h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.contact-pro-info p {
+  font-size: 1.1rem;
+  color: #060606a9;
+  line-height: 1.7;
+}
+
+.footer-legal {
+  margin-top: 50px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+@media (max-width: 768px) {
+  .contact-pro-container {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 40px;
+  }
+
+  .contact-pro-form,
+  .contact-pro-info {
+    width: 100%;
+    text-align: center;
+  }
+
+  .contact-pro-info h2 {
+    font-size: 2rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="video-2">
+    <video autoplay muted loop playsinline class="video-2a">
+      <source src="./imsges.html-2/original-9c94a27b019688ee5cc12e7fdee8f02d.mp4" type="video/mp4" />
+    </video>
+    <div class="intro-text" id="introText">Experience the Future of Driving with ELTECH</div>
+  </div>
+
+  <header id="navbar">
+    <div class="logo" id="logo">ELTECH</div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#recent-cars">Cars</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about">About</a>
+      <a href="#recent-cars">Cars</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+  </header>
+
+  <div class="box-parent">
+    <div class="box-child1"></div>
+    <div class="box-child2"></div>
+    <div class="box-child3"></div>
+  </div>
+
+  <section id="about">
+    <h2>About ELTECH</h2>
+    <p>
+      ELTECH is a leading car tech innovator redefining driving experiences. From performance to luxury, we blend aesthetics with intelligent engineering. Join us on a journey beyond speed.
+    </p>
+  </section>
+
+  <section id="recent-cars">
+    <h2>Our Latest Cars</h2>
+    <div class="gallery">
+      <img src="./imsges.html-2/aaron-huber-8qYE6LGHW-c-unsplash.jpg" alt="Car 1">
+      <img src="./imsges.html-2/flavien-GJuXN4uyB2U-unsplash.jpg" alt="Car 2">
+      <img src="./imsges.html-2/hakon-sataoen-qyfco1nfMtg-unsplash.jpg" alt="Car 3">
+      <img src="./imsges.html-2/peter-broomfield-m3m-lnR90uM-unsplash.jpg" alt="Car 4">
+    </div>
+  </section>
+
+  <section id="reviews">
+    <h2>Customer Reviews</h2>
+    <div class="review-container">
+      <div>
+        <p>"Absolutely love the performance and style. ELTECH is unmatched!"</p>
+        <strong>- Sandra, Lagos</strong>
+      </div>
+      <div>
+        <p>"Customer service was top notch. I’ll be back for my next ride."</p>
+        <strong>- David, Abuja</strong>
+      </div>
+      <div>
+        <p>"The experience felt premium from start to finish."</p>
+        <strong>- Naomi, Port Harcourt</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-footer-pro">
+  <div class="overlay">
+    <div class="contact-pro-container">
+      <!-- Inquiry Form -->
+      <div class="contact-pro-form">
+        <h2>Get in Touch</h2>
+        <p>Have questions or want to book a test drive? Fill the form and we’ll reach out.</p>
+        <form>
+          <input type="text" placeholder="Full Name" required />
+          <input type="email" placeholder="Email Address" required />
+          <input type="tel" placeholder="Phone Number" />
+          <textarea rows="5" placeholder="Your Inquiry..." required></textarea>
+          <button type="submit">Submit Inquiry</button>
+        </form>
+      </div>
+
+      <!-- Info & Copyright -->
+      <div class="contact-pro-info">
+        <h2>ELTECH CARS</h2>
+        <p>
+          Experience the future of mobility. Our vehicles merge electric innovation, comfort, and power in one machine.
+        </p>
+        <div class="footer-legal">
+          <p>&copy; <span id="year"></span> ELTECH Cars. All Rights Reserved.</p>
+          <p>Designed & built by ELTECH Development Team</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const logo = document.getElementById('logo');
+    const hamburger = document.getElementById('hamburger');
+    const introText = document.getElementById('introText');
+
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY > 100;
+      navbar.classList.toggle('scrolled', scrolled);
+      logo.classList.toggle('scrolled', scrolled);
+      hamburger.classList.toggle('scrolled', scrolled);
+      introText.classList.toggle('hidden', scrolled);
+
+      document.body.classList.toggle('light-mode', window.scrollY > 1100);
+    });
+
+    function toggleMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.style.display = mobileMenu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    const cards = document.querySelectorAll('.box-child1, .box-child2, .box-child3');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('card-visible');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    cards.forEach(card => observer.observe(card));
+
+  // Auto year update
+  document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
